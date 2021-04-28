@@ -1,8 +1,6 @@
 # neighborhood-quiz
 Neighborhood quiz helps memorize where Minneapolis neighborhoods are.
 ## Goals
-### Neighborhood geometry
-Render the geometry of all neighborhoods
 ### Random neighborhood and click to guess
 The name of a random neighborhood is presented. Upon clicking a neighborhood, it is indicated if it matches the randomly presented neighborhood name and a new random name is presented.
 ### Score
