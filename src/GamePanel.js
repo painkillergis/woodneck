@@ -1,4 +1,10 @@
-function GamePanel({ message, neighborhood, score }) {
+function GamePanel({
+  message,
+  neighborhood,
+  onHighlight,
+  score,
+  highlightWasUsed,
+}) {
   return (
     <div
       style={{
@@ -9,9 +15,13 @@ function GamePanel({ message, neighborhood, score }) {
         fontSize: '2em',
       }}
     >
-      <div>Score: {score}</div>
+      <div>
+        Score: {score}
+        {highlightWasUsed ? '*' : ''}
+      </div>
       <div>Which neighborhood is {neighborhood}?</div>
       {message && <div>{message}</div>}
+      <button onClick={onHighlight}>Show me!</button>
     </div>
   )
 }

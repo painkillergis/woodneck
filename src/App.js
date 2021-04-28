@@ -13,25 +13,34 @@ function randomNeighborhoodName() {
 
 function App() {
   const [score, setScore] = useState(0)
+  const [highlight, setHighlight] = useState()
   const [neighborhood, setNeighborhood] = useState(
     randomNeighborhoodName(),
   )
   const [message, setMessage] = useState()
+  const [highlightWasUsed, setHighlightWasUsed] = useState(false)
   return (
     <>
       <MapContainer>
         <GamePanel
           message={message}
           neighborhood={neighborhood}
+          onHighlight={() => {
+            setHighlight(neighborhood)
+            setHighlightWasUsed(true)
+          }}
           score={score}
+          highlightWasUsed={highlightWasUsed}
         />
         <AutoFocus />
         <NeighborhoodLayer
+          highlight={highlight}
           onNeighborhoodClicked={(name) => {
             if (name === neighborhood) {
-              setScore((score) => score + 1)
+              setHighlight()
               setMessage(`Nice, you found ${name}!`)
               setNeighborhood(randomNeighborhoodName())
+              setScore((score) => score + 1)
             } else {
               setMessage(`Sorry, that neighborhood is ${name}!`)
             }

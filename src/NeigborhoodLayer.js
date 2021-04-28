@@ -3,7 +3,7 @@ import neighborhoods from './neighborhoods.json'
 import booleanIntersects from '@turf/boolean-intersects'
 import { point } from '@turf/turf'
 
-function NeighborhoodLayer({ onNeighborhoodClicked }) {
+function NeighborhoodLayer({ highlight, onNeighborhoodClicked }) {
   useMapEvents({
     click({ latlng: { lat, lng } }) {
       const clickPoint = point([lng, lat])
@@ -15,7 +15,17 @@ function NeighborhoodLayer({ onNeighborhoodClicked }) {
       }
     },
   })
-  return <GeoJSON data={neighborhoods} />
+  return neighborhoods.features.map((feature) => {
+    const name = feature.properties.BDNAME
+    const isHighlighted = name === highlight
+    return (
+      <GeoJSON
+        key={`${name}${isHighlighted ? '-highlighted' : ''}`}
+        data={feature}
+        style={{ fillColor: isHighlighted ? 'red' : 'blue' }}
+      />
+    )
+  })
 }
 
 export default NeighborhoodLayer
