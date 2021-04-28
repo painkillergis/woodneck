@@ -1,45 +1,59 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MapContainer } from 'react-leaflet'
 import AutoFocus from './AutoFocus'
-import neighborhoods from './neighborhoods.json'
+import neighborhoodsFeatureCollection from './neighborhoods.json'
 import NeighborhoodLayer from './NeigborhoodLayer'
 import GamePanel from './GamePanel'
 
-function randomNeighborhoodName() {
-  return neighborhoods.features[
-    Math.floor(Math.random() * neighborhoods.features.length)
-  ].properties.BDNAME
+function randomNeighborhood(neighborhoods) {
+  return neighborhoods[Math.floor(Math.random() * neighborhoods.length)]
 }
 
 function App() {
-  const [score, setScore] = useState(0)
-  const [highlight, setHighlight] = useState()
-  const [neighborhood, setNeighborhood] = useState(
-    randomNeighborhoodName(),
+  const [neighborhoods, setNeighborhoods] = useState(
+    neighborhoodsFeatureCollection.features.map(
+      (feature) => feature.properties.BDNAME,
+    ),
   )
-  const [message, setMessage] = useState()
+
+  const [highlight, setHighlight] = useState()
   const [highlightWasUsed, setHighlightWasUsed] = useState(false)
+  const [message, setMessage] = useState()
+  const [neighborhood, setNeighborhood] = useState(
+    randomNeighborhood(neighborhoods),
+  )
+  const [score, setScore] = useState(0)
+
+  useEffect(() => {
+    setNeighborhood(randomNeighborhood(neighborhoods))
+  }, [neighborhoods])
+
   return (
     <>
       <MapContainer>
         <GamePanel
+          highlightWasUsed={highlightWasUsed}
           message={message}
           neighborhood={neighborhood}
           onHighlight={() => {
             setHighlight(neighborhood)
             setHighlightWasUsed(true)
           }}
+          remaining={neighborhoods.length}
           score={score}
-          highlightWasUsed={highlightWasUsed}
         />
         <AutoFocus />
         <NeighborhoodLayer
           highlight={highlight}
           onNeighborhoodClicked={(name) => {
             if (name === neighborhood) {
+              setNeighborhoods((_neighborhoods) =>
+                _neighborhoods.filter(
+                  (_neighborhood) => _neighborhood !== neighborhood,
+                ),
+              )
               setHighlight()
               setMessage(`Nice, you found ${name}!`)
-              setNeighborhood(randomNeighborhoodName())
               setScore((score) => score + 1)
             } else {
               setMessage(`Sorry, that neighborhood is ${name}!`)
