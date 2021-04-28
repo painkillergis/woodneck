@@ -18,7 +18,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "aws:sync": "aws s3 sync build/ s3://neighborhood-quiz.painkillergis.com",
+    "aws:invalidate": "aws cloudfront create-invalidation --distribution-id E26C7MEGL6QI06 --invalidation-batch \"Paths={Quantity=1,Items=[\"/index.html\"]},CallerReference=`uuidgen`\"",
+    "deploy": "yarn aws:sync && yarn aws:invalidate"
   },
   "eslintConfig": {
     "extends": [
