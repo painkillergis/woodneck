@@ -7,11 +7,12 @@ function NeighborhoodLayer({ onNeighborhoodClicked }) {
   useMapEvents({
     click({ latlng: { lat, lng } }) {
       const clickPoint = point([lng, lat])
-      onNeighborhoodClicked(
-        neighborhoods.features.find((feature) =>
-          booleanIntersects(feature, clickPoint),
-        ).properties.BDNAME,
+      const feature = neighborhoods.features.find((feature) =>
+        booleanIntersects(feature, clickPoint),
       )
+      if (feature) {
+        onNeighborhoodClicked(feature.properties.BDNAME)
+      }
     },
   })
   return <GeoJSON data={neighborhoods} />
