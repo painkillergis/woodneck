@@ -4,7 +4,12 @@ import AutoFocus from './AutoFocus'
 import neighborhoodsFeatureCollection from './feature-collections/neighborhoods.json'
 import NeighborhoodLayer from './NeigborhoodLayer'
 import GamePanel from './GamePanel'
-import { LakesLayer, RiverBodiesLayer } from './SimpleLayers'
+import {
+  LakesLayer,
+  RiverBodiesLayer,
+  TnmFrc1,
+  TnmFrc23,
+} from './SimpleLayers'
 
 function randomNeighborhood(neighborhoods) {
   return neighborhoods[Math.floor(Math.random() * neighborhoods.length)]
@@ -63,6 +68,8 @@ function App() {
         />
         <LakesLayer />
         <RiverBodiesLayer />
+        <TnmFrc1 />
+        <TnmFrc23 />
       </MapContainer>
     </>
   )

@@ -1,4 +1,7 @@
 # neighborhood-quiz
 Neighborhood quiz helps memorize where Minneapolis neighborhoods are.
 ## Goals
-### Interstate underlay
+### Lift game panel above map
+### Show number of wrongly guessed neighborhoods
+### Add St Paul
+### Add Seattle
