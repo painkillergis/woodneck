@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { MapContainer } from 'react-leaflet'
+import { GeoJSON, MapContainer } from 'react-leaflet'
 import AutoFocus from './AutoFocus'
-import neighborhoodsFeatureCollection from './neighborhoods.json'
+import neighborhoodsFeatureCollection from './feature-collections/neighborhoods.json'
+import riverbodies from './feature-collections/riverbodies.json'
 import NeighborhoodLayer from './NeigborhoodLayer'
 import GamePanel from './GamePanel'
 
@@ -59,6 +60,10 @@ function App() {
               setMessage(`Sorry, that neighborhood is ${name}!`)
             }
           }}
+        />
+        <GeoJSON
+          data={riverbodies}
+          style={{ fillColor: '#AAAAFF', fillOpacity: 0.75, weight: 1 }}
         />
       </MapContainer>
     </>

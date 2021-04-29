@@ -1,5 +1,5 @@
 import { useMapEvents, GeoJSON } from 'react-leaflet'
-import neighborhoods from './neighborhoods.json'
+import neighborhoods from './feature-collections/neighborhoods.json'
 import booleanIntersects from '@turf/boolean-intersects'
 import { point } from '@turf/turf'
 
@@ -22,7 +22,10 @@ function NeighborhoodLayer({ highlight, onNeighborhoodClicked }) {
       <GeoJSON
         key={`${name}${isHighlighted ? '-highlighted' : ''}`}
         data={feature}
-        style={{ fillColor: isHighlighted ? 'red' : 'blue' }}
+        style={{
+          fillColor: isHighlighted ? 'red' : 'white',
+          weight: 2,
+        }}
       />
     )
   })

@@ -1,6 +1,6 @@
 import { useMap } from 'react-leaflet'
 import { useEffect } from 'react'
-import neighborhoods from './neighborhoods.json'
+import neighborhoods from './feature-collections/neighborhoods.json'
 import bbox from '@turf/bbox'
 
 const AutoFocus = () => {
