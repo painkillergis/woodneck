@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { GeoJSON, MapContainer } from 'react-leaflet'
+import { MapContainer } from 'react-leaflet'
 import AutoFocus from './AutoFocus'
 import neighborhoodsFeatureCollection from './feature-collections/neighborhoods.json'
-import riverbodies from './feature-collections/riverbodies.json'
 import NeighborhoodLayer from './NeigborhoodLayer'
 import GamePanel from './GamePanel'
+import { LakesLayer, RiverBodiesLayer } from './SimpleLayers'
 
 function randomNeighborhood(neighborhoods) {
   return neighborhoods[Math.floor(Math.random() * neighborhoods.length)]
@@ -61,10 +61,8 @@ function App() {
             }
           }}
         />
-        <GeoJSON
-          data={riverbodies}
-          style={{ fillColor: '#AAAAFF', fillOpacity: 0.75, weight: 1 }}
-        />
+        <LakesLayer />
+        <RiverBodiesLayer />
       </MapContainer>
     </>
   )

@@ -24,7 +24,8 @@ function NeighborhoodLayer({ highlight, onNeighborhoodClicked }) {
         data={feature}
         style={{
           fillColor: isHighlighted ? 'red' : 'white',
-          weight: 2,
+          weight: 1.5,
+          color: 'black',
         }}
       />
     )
