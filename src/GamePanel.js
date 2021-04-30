@@ -1,3 +1,5 @@
+import ShowMe from './ShowMe'
+
 function GamePanel({
   highlightWasUsed,
   message,
@@ -12,8 +14,13 @@ function GamePanel({
         position: 'absolute',
         top: 0,
         right: 0,
-        margin: '1em',
         fontSize: '2em',
+        margin: '0.5em',
+        padding: '0.5em',
+        borderRadius: '0.25em',
+        backgroundColor: 'white',
+        filter: 'drop-shadow(0.125em 0.125em 0.0625em #888)',
+        zIndex: 1000,
       }}
     >
       {remaining > 0 ? (
@@ -25,7 +32,7 @@ function GamePanel({
           </div>
           <div>Which neighborhood is {neighborhood}?</div>
           {message && <div>{message}</div>}
-          <button onClick={onHighlight}>Show me!</button>
+          <ShowMe onClick={onHighlight} />
         </>
       ) : (
         <span>
