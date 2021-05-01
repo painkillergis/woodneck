@@ -6,12 +6,15 @@ import reportWebVitals from './reportWebVitals'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet/dist/leaflet.js'
 import { ContextProvider } from './context'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 ReactDOM.render(
   <React.StrictMode>
-    <ContextProvider>
-      <App />
-    </ContextProvider>
+    <Router>
+      <ContextProvider>
+        <App />
+      </ContextProvider>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root'),
 )
