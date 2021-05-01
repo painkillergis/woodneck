@@ -41,7 +41,7 @@ function App() {
 
   return (
     <>
-      <MapContainer>
+      <MapContainer zoomSnap={false}>
         <GamePanel
           highlightWasUsed={highlightWasUsed}
           message={message}
