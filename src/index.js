@@ -5,10 +5,13 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet/dist/leaflet.js'
+import { ContextProvider } from './context'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ContextProvider>
+      <App />
+    </ContextProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 )

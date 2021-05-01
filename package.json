@@ -20,8 +20,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "aws:sync": "aws s3 sync build/ s3://neighborhood-quiz.painkillergis.com",
+    "aws:sync-vectors": "aws s3 sync vectors/ s3://neighborhood-quiz.painkillergis.com/vectors/",
     "aws:invalidate": "aws cloudfront create-invalidation --distribution-id E26C7MEGL6QI06 --invalidation-batch \"Paths={Quantity=1,Items=[\"/index.html\"]},CallerReference=`uuidgen`\"",
-    "deploy": "yarn aws:sync && yarn aws:sync-neighborhoods && yarn aws:invalidate",
+    "deploy": "yarn aws:sync && yarn aws:sync-vectors && yarn aws:invalidate",
     "aws:put-bucket-cors": "aws s3api put-bucket-cors --bucket neighborhood-quiz.painkillergis.com --cors-configuration file://devops/s3-cors-policy.json"
   },
   "eslintConfig": {

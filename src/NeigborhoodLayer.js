@@ -1,9 +1,10 @@
 import { useMapEvents, GeoJSON } from 'react-leaflet'
-import neighborhoods from './feature-collections/neighborhoods.json'
+import useNeighborhoods from './useNeighborhoods'
 import booleanIntersects from '@turf/boolean-intersects'
 import { point } from '@turf/turf'
 
 function NeighborhoodLayer({ highlight, onNeighborhoodClicked }) {
+  const neighborhoods = useNeighborhoods()
   useMapEvents({
     click({ latlng: { lat, lng } }) {
       const clickPoint = point([lng, lat])
@@ -26,6 +27,8 @@ function NeighborhoodLayer({ highlight, onNeighborhoodClicked }) {
           fillColor: isHighlighted ? 'red' : 'white',
           weight: 1.5,
           color: 'black',
+          filter: 'blur(32px)',
+          opacity: 1,
         }}
       />
     )

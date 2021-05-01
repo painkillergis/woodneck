@@ -1,11 +1,13 @@
 import { useMap } from 'react-leaflet'
 import { useEffect } from 'react'
-import neighborhoods from './feature-collections/neighborhoods.json'
 import bbox from '@turf/bbox'
+import useNeighborhoods from './useNeighborhoods'
 
 const AutoFocus = () => {
   const map = useMap()
+  const neighborhoods = useNeighborhoods()
   useEffect(() => {
+    if (neighborhoods.features.length < 1) return
     const [left, bottom, right, top] = bbox(neighborhoods)
     const leafletBounds = [
       [bottom, left],
@@ -16,7 +18,7 @@ const AutoFocus = () => {
       setTimeout(() => map.fitBounds(leafletBounds), 125)
     window.addEventListener('resize', onResize)
     return () => window.removeEventListener('resize', onResize)
-  }, [map])
+  }, [map, neighborhoods])
   return null
 }
 

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { MapContainer } from 'react-leaflet'
 import AutoFocus from './AutoFocus'
-import neighborhoodsFeatureCollection from './feature-collections/neighborhoods.json'
 import NeighborhoodLayer from './NeigborhoodLayer'
 import GamePanel from './GamePanel'
 import {
@@ -10,17 +9,24 @@ import {
   TnmFrc1,
   TnmFrc23,
 } from './SimpleLayers'
+import useNeighborhoods from './useNeighborhoods'
 
 function randomNeighborhood(neighborhoods) {
   return neighborhoods[Math.floor(Math.random() * neighborhoods.length)]
 }
 
 function App() {
-  const [neighborhoods, setNeighborhoods] = useState(
-    neighborhoodsFeatureCollection.features.map(
-      (feature) => feature.properties.BDNAME,
-    ),
-  )
+  const neighborhoodsFeatureCollection = useNeighborhoods()
+
+  const [neighborhoods, setNeighborhoods] = useState([])
+
+  useEffect(() => {
+    setNeighborhoods(
+      neighborhoodsFeatureCollection.features.map(
+        (feature) => feature.properties.BDNAME,
+      ),
+    )
+  }, [neighborhoodsFeatureCollection])
 
   const [highlight, setHighlight] = useState()
   const [highlightWasUsed, setHighlightWasUsed] = useState(false)
