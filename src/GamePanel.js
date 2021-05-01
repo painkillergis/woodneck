@@ -10,7 +10,7 @@ function GamePanel({
   score,
   selectedNeighborhoodName,
 }) {
-  const { area, setTargetAreaName } = useContext(context)
+  const { area, areaNames, setTargetAreaName } = useContext(context)
   return (
     <div
       style={{
@@ -33,8 +33,9 @@ function GamePanel({
           width: '100%',
         }}
       >
-        <option value="minneapolis">minneapolis</option>
-        <option value="seattle">seattle</option>
+        {areaNames.map((areaName) => (
+          <option value={areaName}>{areaName}</option>
+        ))}
       </select>
       {remaining > 0 ? (
         <>

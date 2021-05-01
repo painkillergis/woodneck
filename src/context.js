@@ -7,7 +7,7 @@ const initialState = {
     features: [],
     type: 'FeatureCollection',
   },
-  targetAreaName: 'minneapolis',
+  areaNames: [],
 }
 
 function reducer(state, action) {
@@ -16,6 +16,12 @@ function reducer(state, action) {
       return {
         ...state,
         area: action.payload,
+      }
+    case 'newAreaNames':
+      return {
+        ...state,
+        areaNames: action.payload,
+        targetAreaName: action.payload[0],
       }
     case 'newTargetAreaName':
       return {
@@ -29,17 +35,30 @@ function reducer(state, action) {
 
 function ContextProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { area, targetAreaName } = state
+  const { targetAreaName } = state
+
+  useEffect(() => {
+    fetch('/vectors.json')
+      .then((response) => response.json())
+      .then((areaNames) =>
+        dispatch({ type: 'newAreaNames', payload: areaNames }),
+      )
+      .catch((error) => console.log('Failed to fetch area names', error))
+  }, [])
+
   useEffect(() => {
     fetch(`/vectors/${targetAreaName}.json`)
       .then((response) => response.json())
       .then((area) => dispatch({ type: 'newArea', payload: area }))
-      .catch((error) => console.log('Failed to fetch area', error))
+      .catch((error) =>
+        console.log('Failed to fetch area', targetAreaName, error),
+      )
   }, [targetAreaName])
+
   return (
     <context.Provider
       value={{
-        area,
+        ...state,
         setTargetAreaName: (targetAreaName) =>
           dispatch({ type: 'newTargetAreaName', payload: targetAreaName }),
       }}
