@@ -7,6 +7,7 @@ const initialState = {
     features: [],
     type: 'FeatureCollection',
   },
+  targetAreaName: 'minneapolis',
 }
 
 function reducer(state, action) {
@@ -16,6 +17,11 @@ function reducer(state, action) {
         ...state,
         area: action.payload,
       }
+    case 'newTargetAreaName':
+      return {
+        ...state,
+        targetAreaName: action.payload,
+      }
     default:
       throw Error(`irreducable action type ${action.type}`)
   }
@@ -23,14 +29,23 @@ function reducer(state, action) {
 
 function ContextProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { area } = state
+  const { area, targetAreaName } = state
   useEffect(() => {
-    fetch('/vectors/minneapolis.json')
+    fetch(`/vectors/${targetAreaName}.json`)
       .then((response) => response.json())
       .then((area) => dispatch({ type: 'newArea', payload: area }))
       .catch((error) => console.log('Failed to fetch area', error))
-  }, [])
-  return <context.Provider value={{ area }} children={children} />
+  }, [targetAreaName])
+  return (
+    <context.Provider
+      value={{
+        area,
+        setTargetAreaName: (targetAreaName) =>
+          dispatch({ type: 'newTargetAreaName', payload: targetAreaName }),
+      }}
+      children={children}
+    />
+  )
 }
 
 export default context

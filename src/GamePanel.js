@@ -1,3 +1,5 @@
+import { useContext } from 'react'
+import context from './context'
 import ShowMe from './ShowMe'
 
 function GamePanel({
@@ -8,6 +10,7 @@ function GamePanel({
   score,
   selectedNeighborhoodName,
 }) {
+  const { area, setTargetAreaName } = useContext(context)
   return (
     <div
       style={{
@@ -23,6 +26,16 @@ function GamePanel({
         zIndex: 1000,
       }}
     >
+      <select
+        value={area.name}
+        onChange={(e) => setTargetAreaName(e.target.value)}
+        style={{
+          width: '100%',
+        }}
+      >
+        <option value="minneapolis">minneapolis</option>
+        <option value="seattle">seattle</option>
+      </select>
       {remaining > 0 ? (
         <>
           <div>
