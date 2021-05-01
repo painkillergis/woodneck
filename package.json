@@ -15,7 +15,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "index-vectors": "ls public/vectors | jq --raw-input --slurp 'split(\"\\n\")|.[0:-1]|[.[]|split(\".\")[0]]' > build/vectors.json",
+    "index-vectors": "ls public/vectors | jq --raw-input --slurp 'split(\"\\n\")|.[0:-1]|[.[]|split(\".\")[0]]' > public/vectors.json",
     "start": "react-scripts start",
     "build": "react-scripts build && yarn index-vectors",
     "test": "react-scripts test",
