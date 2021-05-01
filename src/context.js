@@ -8,9 +8,7 @@ function ContextProvider({ children }) {
     type: 'FeatureCollection',
   })
   useEffect(() => {
-    fetch(
-      'https://neighborhood-quiz.painkillergis.com/vectors/minneapolis.json',
-    )
+    fetch('/vectors/minneapolis.json')
       .then((response) => response.json())
       .then((_neighborhoods) => setNeighborhoods(_neighborhoods))
       .catch((error) =>
