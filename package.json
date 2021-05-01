@@ -15,13 +15,14 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
+    "index-vectors": "ls public/vectors | jq --raw-input --slurp 'split(\"\\n\")|.[0:-1]|[.[]|split(\".\")[0]]' > build/vectors.json",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && yarn index-vectors",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "aws:put-bucket-cors": "aws s3api put-bucket-cors --bucket neighborhood-quiz.painkillergis.com --cors-configuration file://devops/s3-cors-policy.json",
     "aws:put-bucket-policy": "aws s3api put-bucket-policy --bucket neighborhood-quiz.painkillergis.com --policy file://devops/s3-bucket-policy.json",
-    "aws:sync": "aws s3 sync build/ s3://neighborhood-quiz.painkillergis.com",
+    "aws:sync": "aws s3 sync build s3://neighborhood-quiz.painkillergis.com",
     "aws:invalidate": "aws cloudfront create-invalidation --distribution-id E26C7MEGL6QI06 --invalidation-batch \"Paths={Quantity=1,Items=[\"/index.html\"]},CallerReference=`uuidgen`\"",
     "deploy": "yarn aws:sync && yarn aws:invalidate"
   },
