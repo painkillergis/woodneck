@@ -12,12 +12,12 @@ function NeighborhoodLayer({ highlight, onNeighborhoodClicked }) {
         booleanIntersects(feature, clickPoint),
       )
       if (feature) {
-        onNeighborhoodClicked(feature.properties.BDNAME)
+        onNeighborhoodClicked(feature.properties.name)
       }
     },
   })
   return neighborhoods.features.map((feature) => {
-    const name = feature.properties.BDNAME
+    const name = feature.properties.name
     const isHighlighted = name === highlight
     return (
       <GeoJSON

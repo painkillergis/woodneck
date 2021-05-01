@@ -23,7 +23,7 @@ function App() {
   useEffect(() => {
     setNeighborhoods(
       neighborhoodsFeatureCollection.features.map(
-        (feature) => feature.properties.BDNAME,
+        (feature) => feature.properties.name,
       ),
     )
   }, [neighborhoodsFeatureCollection])
