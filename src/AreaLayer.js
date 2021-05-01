@@ -1,14 +1,14 @@
 import { useMapEvents, GeoJSON } from 'react-leaflet'
-import useNeighborhoods from './useNeighborhoods'
+import useArea from './useArea'
 import booleanIntersects from '@turf/boolean-intersects'
 import { point } from '@turf/turf'
 
-function NeighborhoodLayer({ highlight, onNeighborhoodClicked }) {
-  const neighborhoods = useNeighborhoods()
+function AreaLayer({ highlight, onNeighborhoodClicked }) {
+  const area = useArea()
   useMapEvents({
     click({ latlng: { lat, lng } }) {
       const clickPoint = point([lng, lat])
-      const feature = neighborhoods.features.find((feature) =>
+      const feature = area.features.find((feature) =>
         booleanIntersects(feature, clickPoint),
       )
       if (feature) {
@@ -16,7 +16,7 @@ function NeighborhoodLayer({ highlight, onNeighborhoodClicked }) {
       }
     },
   })
-  return neighborhoods.features.map((feature) => {
+  return area.features.map((feature) => {
     const name = feature.properties.name
     const isHighlighted = name === highlight
     return (
@@ -35,4 +35,4 @@ function NeighborhoodLayer({ highlight, onNeighborhoodClicked }) {
   })
 }
 
-export default NeighborhoodLayer
+export default AreaLayer

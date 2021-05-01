@@ -3,10 +3,10 @@ import ShowMe from './ShowMe'
 function GamePanel({
   highlightWasUsed,
   message,
-  neighborhood,
   onHighlight,
   remaining,
   score,
+  selectedNeighborhoodName,
 }) {
   return (
     <div
@@ -30,7 +30,7 @@ function GamePanel({
             {highlightWasUsed ? '*' : ''}
             &nbsp; ({remaining} remaining)
           </div>
-          <div>Which neighborhood is {neighborhood}?</div>
+          <div>Which neighborhood is {selectedNeighborhoodName}?</div>
           {message && <div>{message}</div>}
           <ShowMe onClick={onHighlight} />
         </>

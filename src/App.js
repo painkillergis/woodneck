@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { MapContainer } from 'react-leaflet'
 import AutoFocus from './AutoFocus'
-import NeighborhoodLayer from './NeigborhoodLayer'
+import AreaLayer from './AreaLayer'
 import GamePanel from './GamePanel'
 import {
   LakesLayer,
@@ -9,36 +9,35 @@ import {
   TnmFrc1,
   TnmFrc23,
 } from './SimpleLayers'
-import useNeighborhoods from './useNeighborhoods'
+import useArea from './useArea'
 
-function randomNeighborhood(neighborhoods) {
-  return neighborhoods[Math.floor(Math.random() * neighborhoods.length)]
+function random(elements) {
+  return elements[Math.floor(Math.random() * elements.length)]
 }
 
 function App() {
-  const neighborhoodsFeatureCollection = useNeighborhoods()
-
-  const [neighborhoods, setNeighborhoods] = useState([])
+  const area = useArea()
+  const allNames = useMemo(
+    () => area.features.map((feature) => feature.properties.name),
+    [area],
+  )
+  const [remainingNames, setRemainingNames] = useState([])
 
   useEffect(() => {
-    setNeighborhoods(
-      neighborhoodsFeatureCollection.features.map(
-        (feature) => feature.properties.name,
-      ),
-    )
-  }, [neighborhoodsFeatureCollection])
+    setRemainingNames(allNames)
+  }, [allNames])
 
   const [highlight, setHighlight] = useState()
   const [highlightWasUsed, setHighlightWasUsed] = useState(false)
   const [message, setMessage] = useState()
-  const [neighborhood, setNeighborhood] = useState(
-    randomNeighborhood(neighborhoods),
+  const [selectedNeighborhoodName, selectNeighborhoodName] = useState(
+    random(remainingNames),
   )
   const [score, setScore] = useState(0)
 
   useEffect(() => {
-    setNeighborhood(randomNeighborhood(neighborhoods))
-  }, [neighborhoods])
+    selectNeighborhoodName(random(remainingNames))
+  }, [remainingNames])
 
   return (
     <>
@@ -46,22 +45,23 @@ function App() {
         <GamePanel
           highlightWasUsed={highlightWasUsed}
           message={message}
-          neighborhood={neighborhood}
+          selectedNeighborhoodName={selectedNeighborhoodName}
           onHighlight={() => {
-            setHighlight(neighborhood)
+            setHighlight(selectedNeighborhoodName)
             setHighlightWasUsed(true)
           }}
-          remaining={neighborhoods.length}
+          remaining={remainingNames.length}
           score={score}
         />
         <AutoFocus />
-        <NeighborhoodLayer
+        <AreaLayer
           highlight={highlight}
           onNeighborhoodClicked={(name) => {
-            if (name === neighborhood) {
-              setNeighborhoods((_neighborhoods) =>
-                _neighborhoods.filter(
-                  (_neighborhood) => _neighborhood !== neighborhood,
+            if (name === selectedNeighborhoodName) {
+              setRemainingNames((remainingNames) =>
+                remainingNames.filter(
+                  (remainingName) =>
+                    remainingName !== selectedNeighborhoodName,
                 ),
               )
               setHighlight()

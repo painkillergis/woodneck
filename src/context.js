@@ -30,12 +30,7 @@ function ContextProvider({ children }) {
       .then((area) => dispatch({ type: 'newArea', payload: area }))
       .catch((error) => console.log('Failed to fetch area', error))
   }, [])
-  return (
-    <context.Provider
-      value={{ neighborhoods: area }}
-      children={children}
-    />
-  )
+  return <context.Provider value={{ area }} children={children} />
 }
 
 export default context
