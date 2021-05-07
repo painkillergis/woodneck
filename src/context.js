@@ -13,10 +13,13 @@ const initialState = {
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'newArea':
+    case 'newLayer':
       return {
         ...state,
-        area: action.payload,
+        area:
+          action.payload[0] === 'neighborhoods'
+            ? action.payload[1]
+            : state.area,
       }
     case 'newTargetAreaName':
       return {
@@ -67,14 +70,22 @@ function ContextProvider({ children }) {
   }, [])
 
   useEffect(() => {
-    if (!collection) return
-    fetchAreas(`/${collection.neighborhoods}`)
-      .then((response) => response.json())
-      .then((area) => dispatch({ type: 'newArea', payload: area }))
-      .catch((error) =>
-        console.log('Failed to fetch area', collection.name, error),
-      )
-  }, [collection, targetAreaName])
+    ;['neighborhoods'].forEach((layerName) => {
+      if (collection && collection[layerName]) {
+        fetchAreas(`/${collection[layerName]}`)
+          .then((response) => response.json())
+          .then((layer) =>
+            dispatch({ type: 'newLayer', payload: [layerName, layer] }),
+          )
+          .catch((error) =>
+            console.log(
+              `Failed to fetch layer ${layerName} from collection ${collection.name}`,
+              error,
+            ),
+          )
+      }
+    })
+  }, [collection])
 
   return (
     <context.Provider
