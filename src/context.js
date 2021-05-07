@@ -59,7 +59,7 @@ function ContextProvider({ children }) {
   )
 
   useEffect(() => {
-    fetchAreas('/v2.json')
+    fetchAreas('/v3.json')
       .then((response) => response.json())
       .then(({ collections }) =>
         dispatch({
@@ -71,21 +71,20 @@ function ContextProvider({ children }) {
   }, [])
 
   useEffect(() => {
-    Object.keys(collection || {})
-      .filter((key) => key !== 'name' && key !== 'displayName')
-      .forEach((layerName) => {
-        fetchAreas(`/${collection[layerName]}`)
-          .then((response) => response.json())
-          .then((layer) =>
-            dispatch({ type: 'newLayer', payload: [layerName, layer] }),
-          )
-          .catch((error) =>
-            console.log(
-              `Failed to fetch layer ${layerName} from collection ${collection.name}`,
-              error,
-            ),
-          )
-      })
+    if (!collection) return
+    collection.layers.forEach(({ layerName, path }) => {
+      fetchAreas(path)
+        .then((response) => response.json())
+        .then((layer) =>
+          dispatch({ type: 'newLayer', payload: [layerName, layer] }),
+        )
+        .catch((error) =>
+          console.log(
+            `Failed to fetch layer ${layerName} from collection ${collection.name}`,
+            error,
+          ),
+        )
+    })
   }, [collection])
 
   return (
