@@ -10,7 +10,9 @@ function GamePanel({
   score,
   selectedNeighborhoodName,
 }) {
-  const { area, areaNames, setTargetAreaName } = useContext(context)
+  const { collections, targetAreaName, setTargetAreaName } = useContext(
+    context,
+  )
   return (
     <div
       style={{
@@ -27,14 +29,16 @@ function GamePanel({
       }}
     >
       <select
-        value={area.name}
+        value={targetAreaName}
         onChange={(e) => setTargetAreaName(e.target.value)}
         style={{
           width: '100%',
         }}
       >
-        {areaNames.map((areaName) => (
-          <option value={areaName}>{areaName}</option>
+        {collections.map(({ name }) => (
+          <option key={name} value={name}>
+            {name}
+          </option>
         ))}
       </select>
       {remaining > 0 ? (
