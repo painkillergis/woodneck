@@ -4,10 +4,6 @@ import useQueryTargetAreaName from './useQueryTargetAreaName'
 const context = createContext()
 
 const initialState = {
-  area: {
-    features: [],
-    type: 'FeatureCollection',
-  },
   collections: [],
   layers: {},
 }
