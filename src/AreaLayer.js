@@ -1,10 +1,10 @@
 import { useMapEvents, GeoJSON } from 'react-leaflet'
-import useArea from './useArea'
 import booleanIntersects from '@turf/boolean-intersects'
 import { point } from '@turf/turf'
+import useLayer from './useLayer'
 
 function AreaLayer({ highlight, onNeighborhoodClicked }) {
-  const area = useArea()
+  const area = useLayer('neighborhoods')
   useMapEvents({
     click({ latlng: { lat, lng } }) {
       const clickPoint = point([lng, lat])

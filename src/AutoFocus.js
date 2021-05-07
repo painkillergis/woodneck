@@ -3,11 +3,11 @@ import { useEffect } from 'react'
 import bbox from '@turf/bbox'
 import buffer from '@turf/buffer'
 import envelope from '@turf/envelope'
-import useArea from './useArea'
+import useLayer from './useLayer'
 
 const AutoFocus = () => {
   const map = useMap()
-  const area = useArea()
+  const area = useLayer('neighborhoods')
   useEffect(() => {
     if (area.features.length < 1) return
     const [left, bottom, right, top] = bbox(

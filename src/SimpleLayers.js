@@ -1,12 +1,11 @@
-import { useContext } from 'react'
 import { GeoJSON } from 'react-leaflet'
-import context from './context'
+import useLayer from './useLayer'
 
 const waterColor = '#addde5'
 
 function ContextLayer({ name, ...props }) {
-  const layer = useContext(context).layers[name]
-  return layer ? <GeoJSON data={layer} {...props} /> : null
+  const layer = useLayer(name)
+  return layer.features.length ? <GeoJSON data={layer} {...props} /> : null
 }
 
 function LakesLayer() {

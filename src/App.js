@@ -9,14 +9,14 @@ import {
   TnmFrc1,
   TnmFrc23,
 } from './SimpleLayers'
-import useArea from './useArea'
+import useLayer from './useLayer'
 
 function random(elements) {
   return elements[Math.floor(Math.random() * elements.length)]
 }
 
 function App() {
-  const area = useArea()
+  const area = useLayer('neighborhoods')
   const allNames = useMemo(
     () => area.features.map((feature) => feature.properties.name),
     [area],

@@ -17,10 +17,6 @@ function reducer(state, action) {
     case 'newLayer':
       return {
         ...state,
-        area:
-          action.payload[0] === 'neighborhoods'
-            ? action.payload[1]
-            : state.area,
         layers: {
           ...state.layers,
           [[action.payload[0]]]: action.payload[1],
