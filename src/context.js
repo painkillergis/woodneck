@@ -72,7 +72,7 @@ function ContextProvider({ children }) {
       .then((response) => response.json())
       .then((area) => dispatch({ type: 'newArea', payload: area }))
       .catch((error) =>
-        console.log('Failed to fetch area', targetAreaName, error),
+        console.log('Failed to fetch area', collection.name, error),
       )
   }, [collection, targetAreaName])
 
