@@ -1,4 +1,4 @@
-import { useEffect, createContext, useReducer } from 'react'
+import { useEffect, createContext, useMemo, useReducer } from 'react'
 import useQueryTargetAreaName from './useQueryTargetAreaName'
 
 const context = createContext()
@@ -41,8 +41,13 @@ function ContextProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
   const { targetAreaName } = state
 
-  useQueryTargetAreaName(targetAreaName, (targetAreaName) =>
-    dispatch({ type: 'newTargetAreaName', payload: targetAreaName }),
+  useQueryTargetAreaName(
+    targetAreaName,
+    useMemo(
+      () => (targetAreaName) =>
+        dispatch({ type: 'newTargetAreaName', payload: targetAreaName }),
+      [dispatch],
+    ),
   )
 
   useEffect(() => {
