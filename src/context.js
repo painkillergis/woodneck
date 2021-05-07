@@ -9,6 +9,7 @@ const initialState = {
     type: 'FeatureCollection',
   },
   collections: [],
+  layers: {},
 }
 
 function reducer(state, action) {
@@ -20,6 +21,10 @@ function reducer(state, action) {
           action.payload[0] === 'neighborhoods'
             ? action.payload[1]
             : state.area,
+        layers: {
+          ...state.layers,
+          [[action.payload[0]]]: action.payload[1],
+        },
       }
     case 'newTargetAreaName':
       return {
@@ -70,7 +75,7 @@ function ContextProvider({ children }) {
   }, [])
 
   useEffect(() => {
-    ;['neighborhoods'].forEach((layerName) => {
+    ;['neighborhoods', 'lakes'].forEach((layerName) => {
       if (collection && collection[layerName]) {
         fetchAreas(`/${collection[layerName]}`)
           .then((response) => response.json())

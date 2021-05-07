@@ -1,18 +1,25 @@
+import { useContext } from 'react'
 import { GeoJSON } from 'react-leaflet'
-import lakes from './feature-collections/lakes.json'
+import context from './context'
 import riverBodies from './feature-collections/riverbodies.json'
 import tnmfrc1 from './feature-collections/tnmfrc1.json'
 import tnmfrc23 from './feature-collections/tnmfrc23.json'
 
 const waterColor = '#addde5'
 
+function useLayer(name) {
+  const { layers } = useContext(context)
+  return layers[name]
+}
+
 function LakesLayer() {
-  return (
+  const layer = useLayer('lakes')
+  return layer ? (
     <GeoJSON
-      data={lakes}
+      data={layer}
       style={{ fillColor: waterColor, fillOpacity: 0.625, weight: 0 }}
     />
-  )
+  ) : null
 }
 
 function RiverBodiesLayer() {
