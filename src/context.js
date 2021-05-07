@@ -34,6 +34,9 @@ function reducer(state, action) {
   }
 }
 
+const fetchAreas = (url) =>
+  fetch(`https://woodneck-areas.painkillergis.com${url}`)
+
 function ContextProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
   const { targetAreaName } = state
@@ -43,10 +46,13 @@ function ContextProvider({ children }) {
   )
 
   useEffect(() => {
-    fetch('/vectors.json')
+    fetchAreas('/v1.json')
       .then((response) => response.json())
-      .then((areaNames) =>
-        dispatch({ type: 'newAreaNames', payload: areaNames }),
+      .then(({ areas }) =>
+        dispatch({
+          type: 'newAreaNames',
+          payload: areas.map(({ displayName }) => displayName),
+        }),
       )
       .catch((error) => console.log('Failed to fetch area names', error))
   }, [])
