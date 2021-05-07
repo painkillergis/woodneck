@@ -1,5 +1,5 @@
-import { useEffect, createContext, useReducer, useMemo } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useEffect, createContext, useReducer } from 'react'
+import useQueryTargetAreaName from './useQueryTargetAreaName'
 
 const context = createContext()
 
@@ -36,33 +36,10 @@ function reducer(state, action) {
 
 function ContextProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
-
-  const history = useHistory()
-  const { search } = useLocation()
-
   const { targetAreaName } = state
 
-  useEffect(() => {
-    if (!targetAreaName) return
-    history.push({
-      search: new URLSearchParams([
-        ['areaName', targetAreaName],
-      ]).toString(),
-    })
-  }, [history, targetAreaName])
-
-  const queryTargetAreaName = useMemo(
-    () => new URLSearchParams(search).get('areaName'),
-    [search],
-  )
-
-  useEffect(
-    () =>
-      dispatch({
-        type: 'newTargetAreaName',
-        payload: queryTargetAreaName,
-      }),
-    [queryTargetAreaName],
+  useQueryTargetAreaName(targetAreaName, (targetAreaName) =>
+    dispatch({ type: 'newTargetAreaName', payload: targetAreaName }),
   )
 
   useEffect(() => {
@@ -75,13 +52,13 @@ function ContextProvider({ children }) {
   }, [])
 
   useEffect(() => {
-    fetch(`/vectors/${targetAreaName || queryTargetAreaName}.json`)
+    fetch(`/vectors/${targetAreaName}.json`)
       .then((response) => response.json())
       .then((area) => dispatch({ type: 'newArea', payload: area }))
       .catch((error) =>
         console.log('Failed to fetch area', targetAreaName, error),
       )
-  }, [targetAreaName, queryTargetAreaName])
+  }, [targetAreaName])
 
   return (
     <context.Provider
