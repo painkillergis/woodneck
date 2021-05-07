@@ -75,8 +75,9 @@ function ContextProvider({ children }) {
   }, [])
 
   useEffect(() => {
-    ;['neighborhoods', 'lakes'].forEach((layerName) => {
-      if (collection && collection[layerName]) {
+    Object.keys(collection || {})
+      .filter((key) => key !== 'name' && key !== 'displayName')
+      .forEach((layerName) => {
         fetchAreas(`/${collection[layerName]}`)
           .then((response) => response.json())
           .then((layer) =>
@@ -88,8 +89,7 @@ function ContextProvider({ children }) {
               error,
             ),
           )
-      }
-    })
+      })
   }, [collection])
 
   return (
