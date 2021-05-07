@@ -1,0 +1,18 @@
+{
+  "Comment": "Validate subdomain for ACM",
+  "Changes": [
+    {
+      "Action": "CREATE",
+      "ResourceRecordSet": {
+        "Name": "",
+        "Type": "",
+        "TTL": 300,
+        "ResourceRecords": [
+          {
+            "Value": ""
+          }
+        ]
+      }
+    }
+  ]
+}

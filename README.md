@@ -1,6 +1,7 @@
-# neighborhood-quiz
-Neighborhood quiz helps memorize where city neighborhoods are.
+# woodneck
+Woodneck helps memorize where city neighborhoods are.
 ## Goals
+### Source geography features from woodneck
 ### Show number of wrongly guessed neighborhoods
 ### Add Seattle water layer as /vectors/seattle/water.json
 ### Convert Minneapolis water layer to /vectors/minneapolis/water.json

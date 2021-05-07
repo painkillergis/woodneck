@@ -1,0 +1,16 @@
+#!/bin/zsh
+aws s3api create-bucket \
+  --acl public-read \
+  --bucket woodneck.painkillergis.com
+
+aws s3api put-bucket-cors \
+  --bucket woodneck.painkillergis.com \
+  --cors-configuration file://devops/aws:s3/cors-configuration.json
+
+aws s3api put-bucket-policy \
+  --bucket woodneck.painkillergis.com \
+  --policy file://devops/aws:s3/bucket-policy.json
+
+aws s3api put-bucket-website \
+  --bucket woodneck.painkillergis.com \
+  --website-configuration file://devops/aws:s3/website-configuration.json
