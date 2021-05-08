@@ -20,7 +20,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "aws:sync": "aws s3 sync build s3://woodneck.painkillergis.com",
+    "aws:sync": "aws s3 sync build s3://woodneck.painkillergis.com --cache-control max-age=86400",
     "aws:invalidate": "aws cloudfront create-invalidation --distribution-id file://devops/aws:cloudfront/distribution-id --invalidation-batch \"Paths={Quantity=1,Items=[\"/index.html\"]},CallerReference=`uuidgen`\"",
     "deploy": "yarn aws:sync && yarn aws:invalidate"
   },
