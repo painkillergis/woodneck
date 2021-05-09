@@ -1,15 +1,16 @@
 import { useMapEvents, GeoJSON } from 'react-leaflet'
 import booleanIntersects from '@turf/boolean-intersects'
-import { point } from '@turf/turf'
 import useLayer from './useLayer'
 
 function AreaLayer({ highlight, onNeighborhoodClicked }) {
   const area = useLayer('neighborhoods')
   useMapEvents({
     click({ latlng: { lat, lng } }) {
-      const clickPoint = point([lng, lat])
       const feature = area.features.find((feature) =>
-        booleanIntersects(feature, clickPoint),
+        booleanIntersects(feature, {
+          type: 'Point',
+          coordinates: [lng, lat],
+        }),
       )
       if (feature) {
         onNeighborhoodClicked(feature.properties.name)
