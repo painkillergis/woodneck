@@ -36,6 +36,8 @@ function reducer(state, action) {
 
 const fetchAreas = (url) =>
   fetch(`https://woodneck-areas.painkillergis.com${url}`)
+    .then((response) => response.text())
+    .then((body) => JSON.parse(body))
 
 function ContextProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -55,8 +57,7 @@ function ContextProvider({ children }) {
   )
 
   useEffect(() => {
-    fetchAreas('/v3.json')
-      .then((response) => response.json())
+    fetchAreas('/v4.br.json')
       .then(({ collections }) =>
         dispatch({
           type: 'newCollections',
@@ -70,7 +71,6 @@ function ContextProvider({ children }) {
     if (!collection) return
     collection.layers.forEach(({ layerName, path }) => {
       fetchAreas(path)
-        .then((response) => response.json())
         .then((layer) =>
           dispatch({ type: 'newLayer', payload: [layerName, layer] }),
         )
